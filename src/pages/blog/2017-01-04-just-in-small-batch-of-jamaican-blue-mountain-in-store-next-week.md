@@ -1,7 +1,7 @@
 ---
 templateKey: blog-post
 title: phpでcanonicalをResponse Headerに設定
-date: 2017-01-04T15:04:10.000Z
+date: 2019-12-14T15:04:10.000Z
 description: 通常はheadタグに記述するケースがほとんどですが、Response Headerに記載するようにしました。
 featuredpost: true
 featuredimage: /img/matteo-maretto-9kkplorgouy-unsplash.jpg
