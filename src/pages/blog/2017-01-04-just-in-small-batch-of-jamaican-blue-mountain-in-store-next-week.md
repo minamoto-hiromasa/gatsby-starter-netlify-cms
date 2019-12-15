@@ -1,34 +1,54 @@
 ---
-templateKey: 'blog-post'
-title: 'Just in: small batch of Jamaican Blue Mountain in store next week'
+templateKey: blog-post
+title: phpでcanonicalをResponse Headerに設定
 date: 2017-01-04T15:04:10.000Z
+description: 通常はheadタグに記述するケースがほとんどですが、Response Headerに記載するようにしました。
 featuredpost: true
-description: >-
-  We’re proud to announce that we’ll be offering a small batch of Jamaica Blue
-  Mountain coffee beans in our store next week.
+featuredimage: /img/matteo-maretto-9kkplorgouy-unsplash.jpg
 tags:
-  - jamaica
-  - green beans
-  - flavor
-  - tasting
+  - canonical
+  - Response Header
+  - head tag
+  - Advanced Rest Client
 ---
+最初に実際の記載方法です。
+```
+header('Link: <https://google.com>; rel="canonical"');
+```
+phpの独特な記述方法なのかもしれませんが、canonicalに設定するURLを"Link: \<URL>;"のように記述します。それとrel="canonical"も設定するような記述です。
 
-We expect the shipment of a limited quantity of green beans next Monday. We’ll be offering the roasted beans from Tuesday, but quantities are limited, so be quick.
+一般的にはhtmlの`head`タグに以下のように記載します。
+```
+<head>
+...
+<link rel=”canonical” href=”https://google.com”/>
+...
+<head>
+```
+canonicalの設定はwordpressでSEO対策として良く出てくるトピックですが、他にも.htaccessで設定することもできます。これは実際には試していないので、割愛させていただきますっ。また試してみる機会が合ったら更新しますっ。
 
-Blue Mountain Peak is the highest mountain in Jamaica and one of the highest peaks in the Caribbean at 7,402 ft. It is the home of Blue Mountain coffee and their famous tours. It is located on the border of the Portland and Saint Thomas parishes of Jamaica.
 
-## A little history
+wordpressでこのResponse Headerに登録する方法を紹介しましたが、実は副作用があるようでした。
+```
+link: <https://kmc-bunko.com/wp-json/>; rel="https://api.w.org/", <自分のサイトのURL>; rel=shortlink
+```
+wordpressは初期状態では、以上のようなLink情報が含まれています。
+ここに２つ情報が含まれていて、片方はwordpress apiを利用できることを知らせる情報と、URLを短縮（分かりやすくphpで書き直す）を知らせるような情報が登録されています。
 
-The Blue Mountains are considered by many to be a hiker's and camper's paradise. The traditional Blue Mountain trek is a 7-mile hike to the peak and consists of a 3,000-foot increase in elevation. Jamaicans prefer to reach the peak at sunrise, thus the 3–4 hour hike is usually undertaken in darkness. Since the sky is usually very clear in the mornings, Cuba can be seen in the distance.
+_[WordPressがheadに挿入する「api.w.org」とは。またその無効化の方法](https://hacknote.jp/archives/36229/)  
+こちらで詳しい内容が紹介されています。_
 
->Some of the plants found on the Blue Mountain cannot be found anywhere else in the world and they are often of a dwarfed sort.
+ですが、一番最初に紹介したcanonicalのResponse Header登録をすると、これらが上書きされてしまいます。実際にREST APIが無効になっているか以下のようなURLで試してみました。
+```
+https://自分のWPサイトのドメイン/wp-json/wp/v2/posts
+```
+実際はこれで記事の一覧が問題なく取得できていました。
 
-This is mainly due to the cold climate which inhibits growth. The small coffee farming communities of Claverty Cottage and Hagley Gap are located near the peak.
+余談ですが、Response HeaderをGUIで見やすく表示できる以下のChromeプラグインがおすすめです。
 
-## What you need to know before trying
+[Advanced REST Client](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo)  
+こちらはResponse Headerも見れますが、APIのレスポンスであるjsonを整形して表示してくれるので、とても便利ですっ、ぜひ。
 
-Jamaican Blue Mountain Coffee or Jamaica Blue Mountain Coffee is a classification of coffee grown in the Blue Mountains of Jamaica. The best lots of Blue Mountain coffee are noted for their mild flavor and lack of bitterness. Over the past few decades, this coffee has developed a reputation that has made it one of the most expensive and sought-after coffees in the world. Over 80% of all Jamaican Blue Mountain Coffee is exported to Japan. In addition to its use for brewed coffee, the beans are the flavor base of Tia Maria coffee liqueur.
-
-Jamaican Blue Mountain Coffee is a globally protected certification mark, meaning only coffee certified by the Coffee Industry Board of Jamaica can be labeled as such. It comes from a recognized growing region in the Blue Mountain region of Jamaica, and its cultivation is monitored by the Coffee Industry Board of Jamaica.
-
-The Blue Mountains are generally located between Kingston to the south and Port Antonio to the north. Rising 7,402 ft, they are some of the highest mountains in the Caribbean. The climate of the region is cool and misty with high rainfall. The soil is rich, with excellent drainage. This combination of climate and soil is considered ideal for coffee.
+参考にしたページ:  
+[https://www.searchenginepeople.com/blog/hwoto-canonical-headers.html](https://www.searchenginepeople.com/blog/hwoto-canonical-headers.html)
+[https://moz.com/blog/how-to-advanced-relcanonical-http-headers](https://moz.com/blog/how-to-advanced-relcanonical-http-headers)
