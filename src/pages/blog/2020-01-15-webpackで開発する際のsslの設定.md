@@ -1,6 +1,6 @@
 ---
 templateKey: blog-post
-title: webpackで開発する際のSSLの設定
+title: webpackを使ってローカルで開発するときのSSLの設定
 date: 2020-01-15T06:59:10.717Z
 description: mkcertを利用してlocalhostに自己著名証明書を設定し、webpackで有効にする方法を紹介します
 featuredpost: true
