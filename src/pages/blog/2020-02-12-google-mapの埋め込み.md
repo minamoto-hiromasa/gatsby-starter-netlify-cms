@@ -23,7 +23,7 @@ GCPでGoogle Map APIが使用できるようにします。前提として、以
 * プロジェクトの作成
 * お支払いの設定
 
-![Google Cloud Platform](/img/screenshot-2020-02-12-17.09.02.png "プロジェクトの作成と支払い設定")
+![Google Cloud Platform](/img/screenshot-2020-02-12-17.21.47.png "プロジェクトの作成と支払い設定")
 
 詳細は割愛しますが、お支払いの設定は済ませておくとあとで地図表示の際にエラーにならなくて済みますっ
 
@@ -102,11 +102,12 @@ https://mapstyle.withgoogle.com/
 [https://developers.google.com/maps/documentation/javascript/tutorial?hl=ja](https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=ja)
 
 自前のピンの設定:
-[https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=ja](https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=ja)
+<https://developers.google.com/maps/documentation/javascript/adding-a-google-map?hl=ja>
 
 これを元に以下のソースを作成しました。
 
 google-map.js
+
 ```
 export default function googleMap () {
     let map = {}
@@ -129,13 +130,15 @@ export default function googleMap () {
     initMap()
 }
 ```
+
 ピンのサイズは今は縦横50%で設定していますが、ここは適宜変更してください。
 
 このままだと、`initMap()`のスコープがMAP APIのコールバックの時に通らないので、このjsをインポートするところで、
+
 ```
 import googleMap from './google-map';
 window.initMap = googleMap;
 ```
 
-これで大概の地図表示はカバーできるんじゃないかと思いますっ。  
+これで大概の地図表示はカバーできるんじゃないかと思いますっ。\
 ぜひご参考ください。
